@@ -45,7 +45,7 @@ const getSingleProductFromServer = (id) => {
 const findProduct = (query) => {
   return new Promise((resolve, reject) => {
     const menu = query.menu;
-    const sqlQuery = "select * from public.products where menu like '%' || $1 || '%'";
+    const sqlQuery = "select * from public.products where lower(menu) like lower('%' || $1 || '%')";
     db.query(sqlQuery, [menu])
       .then((result) => {
         if (result.rows.length === 0) {

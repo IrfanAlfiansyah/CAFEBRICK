@@ -1,5 +1,6 @@
+//const db = require("../config/db");
 const productModel = require("../models/product");
-const {getProductsFromServer, getSingleProductFromServer} = productModel;
+const {getProductsFromServer, getSingleProductFromServer, findProduct} = productModel;
 
 
 const getAllProducts = (req, res) => {
@@ -22,10 +23,11 @@ const getAllProducts = (req, res) => {
 };
 
 const getProductById = (req, res) => {
-  getSingleProductFromServer(26)
-  .then((result) => {
+  const id = req.params.id;
+  getSingleProductFromServer(id)
+  .then(({ data }) => {
     res.status(200).json({
-      data: result,
+      data,
       err: null,
     });
   })
@@ -33,12 +35,30 @@ const getProductById = (req, res) => {
     const {err, status} = error;
     res.status(status).json({
       data: [],
-      err: err.message,
+      err,
+    });
+  });
+};
+
+const findProductByQuery = (req, res) => {
+  findProduct(req.query)
+  .then(({data, total}) => {
+    res.status(200).json({
+      err: null,
+      data,
+      total,
+    });
+  })
+  .catch(({status, err}) => {
+    res.status(status).json({
+      data: [],
+      err,
     });
   });
 };
 
 module.exports = {
   getAllProducts,
-  getProductById
+  getProductById,
+  findProductByQuery,
 };

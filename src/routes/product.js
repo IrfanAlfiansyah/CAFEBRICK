@@ -5,8 +5,9 @@ const productController = require("../controllers/product");
 
 Router.get("/all", productController.getAllProducts);
 
-Router.get("/1", productController.getProductById);
+Router.get("/:id", productController.getProductById);
 
+Router.get("/", productController.findProductByQuery);
 //Router.post("/", (req, res) => {
 
 //});

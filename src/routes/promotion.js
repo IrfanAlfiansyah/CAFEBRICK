@@ -5,7 +5,7 @@ const promotionController = require("../controllers/promotion");
 
 const validate = require("../middlewares/validate");
 
-Router.get("/all", promotionController.getAllpromotions);
+Router.get("/all", promotionController.getAllPromotions);
 
 Router.get("/:id", promotionController.getPromotionById);
 

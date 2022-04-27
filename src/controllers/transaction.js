@@ -1,10 +1,8 @@
-const productModel = require("../models/product");
-const { getProductsFromServer, getSingleProductFromServer, findProduct, findPromotion, createNewProduct, deleteProduct, updateProduct } = productModel;
+const { getTransactionFromServer, getSingleTransactionFromServer, createNewTransaction, deleteTransaction, updateTransaction } = require("../models/transaction");
 const { successResponse, errorResponse } = require("../helpers/response");
 
-
-const getAllProducts = (req, res) => {
-  getProductsFromServer()
+const getAllTransaction = (req, res) => {
+  getTransactionFromServer()
     .then((result) => {
       const { total, data } = result;
       successResponse(res, 200, data, total);
@@ -15,9 +13,9 @@ const getAllProducts = (req, res) => {
     });
 };
 
-const getProductById = (req, res) => {
+const getTransactionById = (req, res) => {
   const id = req.params.id;
-  getSingleProductFromServer(id)
+  getSingleTransactionFromServer(id)
     .then(({ data }) => {
       res.status(200).json({
         data,
@@ -30,28 +28,8 @@ const getProductById = (req, res) => {
     });
 };
 
-const findProductByQuery = (req, res) => {
-  findProduct(req.query)
-    .then(({ data, total }) => {
-      successResponse(res, 200, data, total);
-    })
-    .catch(({ status, err }) => {
-      errorResponse(res, status, err);
-    });
-};
-
-const findPromotionByQuery = (req, res) => {
-  findPromotion(req.query)
-    .then(({ data, total }) => {
-      successResponse(res, 200, data, total);
-    })
-    .catch(({ status, err }) => {
-      errorResponse(res, status, err);
-    });
-};
-
-const postNewProduct = (req, res) => {
-  createNewProduct(req.body)
+const postNewTransaction = (req, res) => {
+  createNewTransaction(req.body)
     .then(({ data }) => {
       res.status(200).json({
         err: null,
@@ -66,9 +44,9 @@ const postNewProduct = (req, res) => {
     });
 };
 
-const deleteProductById = (req, res) => {
+const deleteTransactionById = (req, res) => {
   const id = req.params.id;
-  deleteProduct(id)
+  deleteTransaction(id)
     .then(({ data }) => {
       res.status(200).json({
         data: data.rowCount,
@@ -82,14 +60,9 @@ const deleteProductById = (req, res) => {
     });
 };
 
-const updateProductById = (req, res) => {
-  // const body = req.body;
-  // const newBody = {
-  //   ...body,
-  //   updatedAt: new Date("YYYY-MM-DDTHH:MM:SSZ")
-  // };
+const updateTransactionById = (req, res) => {
   const id = req.params.id;
-  updateProduct(id, req.body)
+  updateTransaction(id, req.body)
     .then(({ data }) => {
       res.status(200).json({
         data: data.rowCount,
@@ -104,11 +77,9 @@ const updateProductById = (req, res) => {
 };
 
 module.exports = {
-  getAllProducts,
-  getProductById,
-  findProductByQuery,
-  findPromotionByQuery,
-  postNewProduct,
-  deleteProductById,
-  updateProductById,
+  getAllTransaction,
+  getTransactionById,
+  postNewTransaction,
+  deleteTransactionById,
+  updateTransactionById,
 };

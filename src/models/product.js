@@ -1,15 +1,8 @@
-//const res = require("express/lib/response");
 const db = require("../config/db");
 
 
 const getProductsFromServer = () => {
   return new Promise((resolve, reject) => {
-    // let err = false;
-    // if (err) return reject({
-    //   err: new Error(err),
-    //   status: 500,
-    // });
-    // return resolve(products);
     db.query("SELECT * FROM public.products")
       .then(result => {
         const response = {
@@ -45,9 +38,9 @@ const getSingleProductFromServer = (id) => {
 
 const findProduct = (query) => {
   return new Promise((resolve, reject) => {
-    const {category, order, sort} = query;
-    let sqlQuery = 
-    "select * from public.products where lower(category) like lower('%' || $1 || '%')";
+    const { category, order, sort } = query;
+    let sqlQuery =
+      "select * from public.products where lower(category) like lower('%' || $1 || '%')";
     if (order) {
       sqlQuery += " order by " + sort + " " + order;
     }
@@ -70,12 +63,12 @@ const findProduct = (query) => {
 
 const findPromotion = (query) => {
   return new Promise((resolve, reject) => {
-    const {promotionCode, order, sort} = query;
+    const { promotionCode } = query;
     let sqlQuery =
-    "select * from public.promotions where lower(promotionCode) like lower('%' || $1 || '%')";
-    if (order) {
-      sqlQuery += " order by " + sort + " " + order;
-    }
+      "select * from public.promotions where lower(promotionCode) like lower('%' || $1 || '%')";
+    // if (order) {
+    //   sqlQuery += " order by " + sort + " " + order;
+    // }
     db.query(sqlQuery, [promotionCode])
       .then((result) => {
         if (result.rows.length === 0) {
@@ -109,10 +102,48 @@ const createNewProduct = (body) => {
   });
 };
 
+const deleteProduct = (id) => {
+  return new Promise((resolve, reject) => {
+    const sqlQuery = "DELETE FROM public.products where public.products.id = $1";
+    db.query(sqlQuery, [id])
+      .then((data) => {
+        const response = {
+          data,
+        };
+
+        resolve(response);
+      })
+      .catch((err) => {
+        reject({ status: 500, err });
+      });
+  });
+};
+
+const updateProduct = (id, body) => {
+  return new Promise((resolve, reject) => {
+    const { menu, category, size, price } = body;
+    const sqlQuery =
+      "UPDATE public.products SET menu = $1, category = $2, size = $3, price = $4 WHERE public.products.id = $5";
+    db.query(sqlQuery, [menu, category, size, price, id])
+      .then((data) => {
+        const response = {
+          data,
+        };
+
+        resolve(response);
+      })
+      .catch((err) => {
+        reject({ status: 500, err });
+      });
+  });
+};
+
 module.exports = {
   getProductsFromServer,
   getSingleProductFromServer,
   findProduct,
   findPromotion,
   createNewProduct,
+  deleteProduct,
+  updateProduct,
 };

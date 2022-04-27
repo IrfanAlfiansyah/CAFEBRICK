@@ -83,11 +83,6 @@ const deleteProductById = (req, res) => {
 };
 
 const updateProductById = (req, res) => {
-  // const body = req.body;
-  // const newBody = {
-  //   ...body,
-  //   updatedAt: new Date("YYYY-MM-DDTHH:MM:SSZ")
-  // };
   const id = req.params.id;
   updateProduct(id, req.body)
     .then(({ data }) => {

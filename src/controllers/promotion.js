@@ -1,7 +1,7 @@
 const { getPromotionFromServer, getSinglePromotionFromServer, createNewPromotion, deletePromotion, updatePromotion } = require("../models/promotions");
 const { successResponse, errorResponse } = require("../helpers/response");
 
-const getAllpromotions = (req, res) => {
+const getAllPromotions = (req, res) => {
   getPromotionFromServer()
     .then((result) => {
       const { total, data } = result;
@@ -77,7 +77,7 @@ const updatePromotionById = (req, res) => {
 };
 
 module.exports = {
-  getAllpromotions,
+  getAllPromotions,
   getPromotionById,
   postNewPromotion,
   deletePromotionById,

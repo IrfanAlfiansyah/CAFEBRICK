@@ -56,7 +56,7 @@ validate.transactionData = (req, res, next) => {
   const validBody = Object.keys(body).filter(
     (key) => key === "nameProduct" || key === "quantity" || key === "size" || key === "subTotal" || key === "shipping" || key === "tax" || key === "total" || key === "address"
   );
-  if (validBody.length < 3) {
+  if (validBody.length < 8) {
     return res.status(400).json({
       err: "Body harus berisikan nameProduct, quantity, size, subTotal, shipping, tax, total, dan address",
     });

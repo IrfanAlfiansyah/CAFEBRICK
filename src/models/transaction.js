@@ -38,10 +38,10 @@ const getSingleTransactionFromServer = (id) => {
 
 const createNewTransaction = (body) => {
   return new Promise((resolve, reject) => {
-    const { nameProduct, quantity, size, subTotal, shipping, tax, total, address } = body;
+    const { productId, quantity, size, subTotal, shipping, tax, total, address } = body;
     const sqlQuery =
-      "INSERT INTO public.users(nameProduct, quantity, size, subTotal, shipping, tax, total, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
-    db.query(sqlQuery, [nameProduct, quantity, size, subTotal, shipping, tax, total, address])
+      "INSERT INTO public.transactions(productId, quantity, size, subTotal, shipping, tax, total, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+    db.query(sqlQuery, [productId, quantity, size, subTotal, shipping, tax, total, address])
       .then(({ rows }) => {
         const response = {
           data: rows[0],
@@ -71,10 +71,10 @@ const deleteTransaction = (id) => {
 
 const updateTransaction = (id, body) => {
   return new Promise((resolve, reject) => {
-    const { nameProduct, quantity, size, subTotal, shipping, tax, total, address, } = body;
+    const { productId, quantity, size, subTotal, shipping, tax, total, address, } = body;
     const sqlQuery =
-      "UPDATE public.transactions SET nameProduct = $1, quantity = $2, size = $3, subTotal = $4, shipping = $5, tax = $6, total = $7, address = $8 WHERE public.transactions.id = $9";
-    db.query(sqlQuery, [nameProduct, quantity, size, subTotal, shipping, tax, total, address, id])
+      "UPDATE public.transactions SET productId = $1, quantity = $2, size = $3, subTotal = $4, shipping = $5, tax = $6, total = $7, address = $8 WHERE public.transactions.id = $9";
+    db.query(sqlQuery, [productId, quantity, size, subTotal, shipping, tax, total, address, id])
       .then((data) => {
         const response = {
           data,

@@ -1,6 +1,7 @@
 const promotionModel = require("../models/promotion");
 const { getPromotionFromServer, getSinglePromotionFromServer, createNewPromotion, deletePromotion, updatePromotion } = promotionModel;
 const { successResponse, errorResponse } = require("../helpers/response");
+//
 
 const getAllPromotions = (req, res) => {
   getPromotionFromServer()

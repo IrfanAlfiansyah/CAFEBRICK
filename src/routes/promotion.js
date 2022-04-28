@@ -13,6 +13,6 @@ Router.post("/", validate.promotionData, promotionController.postNewPromotion);
 
 Router.delete("/:id", promotionController.deletePromotionById);
 
-Router.patch("/:id", promotionController.getPromotionById);
+Router.patch("/:id", promotionController.updatePromotionById);
 
 module.exports = Router;

@@ -4,10 +4,16 @@ const Router = express.Router();
 const pingRouter = require("./ping");
 const helloRouter = require("./hello");
 const productRouter = require("./product");
+const promotionRouter = require("./promotion");
+const transactionRouter = require("./transaction");
+const userRouter = require("./user");
 
 Router.use("/ping", pingRouter);
 Router.use("/hello", helloRouter);
 Router.use("/product", productRouter);
+Router.use("/promotion", promotionRouter); 
+Router.use("/transaction", transactionRouter);
+Router.use("/user", userRouter);
 
 module.exports = Router;
 

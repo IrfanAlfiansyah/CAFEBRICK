@@ -9,6 +9,7 @@ const getAllPromotions = (req, res) => {
       successResponse(res, 200, data, total);
     })
     .catch((error) => {
+      console.log(error);
       const { err, status } = error;
       errorResponse(res, status, err);
     });

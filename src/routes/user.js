@@ -13,6 +13,6 @@ Router.post("/", validate.userData, userController.postNewUser);
 
 Router.delete("/:id", userController.deleteUserById);
 
-Router.patch("/:id", userController.getUserById);
+Router.patch("/:id", userController.updateUserById);
 
 module.exports = Router;

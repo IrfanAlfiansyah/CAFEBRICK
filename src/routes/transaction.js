@@ -13,6 +13,6 @@ Router.post("/", validate.transactionData, transactionController.postNewTransact
 
 Router.delete("/:id", transactionController.deleteTransactionById);
 
-Router.patch("/:id", transactionController.getTransactionById);
+Router.patch("/:id", transactionController.updateTransactionById);
 
 module.exports = Router;

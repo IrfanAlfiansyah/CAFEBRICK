@@ -15,4 +15,6 @@ Router.delete("/:id", userController.deleteUserById);
 
 Router.patch("/:id", userController.updateUserById);
 
+Router.post("/", userController.postNewUser);
+
 module.exports = Router;

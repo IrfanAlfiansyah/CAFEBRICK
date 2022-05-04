@@ -28,11 +28,11 @@ validate.productData = (req, res, next) => {
 validate.userData = (req, res, next) => {
   const {body} = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "displayName" || key === "email" || key === "phoneNumber" || key === "address"
+    (key) => key === "display_name" || key === "email" || key === "phone_number" || key === "address"
   );
   if (validBody.length < 4) {
     return res.status(400).json({
-      err: "Body harus berisikan displayName, email, phoneNumber, dan address",
+      err: "Body harus berisikan display_name, email, phone_number, dan address",
     });
   }
   next();
@@ -41,11 +41,11 @@ validate.userData = (req, res, next) => {
 validate.promotionData = (req, res, next) => {
   const {body} = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "promotionCode" || key === "detailPromo" || key === "discount"
+    (key) => key === "promotion_code" || key === "detail_promo" || key === "discount"
   );
   if (validBody.length < 3) {
     return res.status(400).json({
-      err: "Body harus berisikan promotionCode, detailPromo, dan discount",
+      err: "Body harus berisikan promotion_code, detail_promo, dan discount",
     });
   }
   next();
@@ -54,11 +54,11 @@ validate.promotionData = (req, res, next) => {
 validate.transactionData = (req, res, next) => {
   const {body} = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "productId" || key === "quantity" || key === "size" || key === "subTotal" || key === "shipping" || key === "tax" || key === "total" || key === "address"
+    (key) => key === "product_id" || key === "quantity" || key === "size" || key === "sub_total" || key === "shipping" || key === "tax" || key === "total" || key === "address"
   );
   if (validBody.length < 8) {
     return res.status(400).json({
-      err: "Body harus berisikan productId, quantity, size, subTotal, shipping, tax, total, dan address",
+      err: "Body harus berisikan product_id, quantity, size, sub_total, shipping, tax, total, dan address",
     });
   }
   next();

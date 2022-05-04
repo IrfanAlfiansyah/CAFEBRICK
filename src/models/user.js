@@ -38,10 +38,10 @@ const getSingleUserFromServer = (id) => {
 
 const createNewUser = (body) => {
   return new Promise((resolve, reject) => {
-    const { displayName, email, phoneNumber, address } = body;
+    const { display_name, email, phone_number, address } = body;
     const sqlQuery =
-      "INSERT INTO public.users(displayName, email, phoneNumber, address) VALUES ($1, $2, $3, $4) RETURNING *";
-    db.query(sqlQuery, [displayName, email, phoneNumber, address])
+      "INSERT INTO public.users(display_name, email, phone_number, address) VALUES ($1, $2, $3, $4) RETURNING *";
+    db.query(sqlQuery, [display_name, email, phone_number, address])
       .then(({ rows }) => {
         const response = {
           data: rows[0],
@@ -71,10 +71,10 @@ const deleteUser = (id) => {
 
 const updateUser = (id, body) => {
   return new Promise((resolve, reject) => {
-    const { displayName, email, phoneNumber, address } = body;
+    const { display_name, email, phone_number, address } = body;
     const sqlQuery =
-      "UPDATE public.users SET displayName = $1, email = $2, phoneNumber = $3, address = $4 WHERE public.users.id = $5";
-    db.query(sqlQuery, [displayName, email, phoneNumber, address, id])
+      "UPDATE public.users SET display_name = $1, email = $2, phone_number = $3, address = $4 WHERE public.users.id = $5";
+    db.query(sqlQuery, [display_name, email, phone_number, address, id])
       .then((data) => {
         const response = {
           data,

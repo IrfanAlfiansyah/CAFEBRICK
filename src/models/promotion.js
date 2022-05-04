@@ -38,10 +38,10 @@ const getSinglePromotionFromServer = (id) => {
 
 const createNewPromotion = (body) => {
   return new Promise((resolve, reject) => {
-    const { promotionCode, detailPromo, discount } = body;
+    const { promotion_code, detail_promo, discount } = body;
     const sqlQuery =
-      "INSERT INTO public.promotions(promotionCode, detailPromo, discount) VALUES ($1, $2, $3) RETURNING *";
-    db.query(sqlQuery, [promotionCode, detailPromo, discount])
+      "INSERT INTO public.promotions(promotion_code, detail_promo, discount) VALUES ($1, $2, $3) RETURNING *";
+    db.query(sqlQuery, [promotion_code, detail_promo, discount])
       .then(({ rows }) => {
         const response = {
           data: rows[0],
@@ -71,10 +71,10 @@ const deletePromotion = (id) => {
 
 const updatePromotion = (id, body) => {
   return new Promise((resolve, reject) => {
-    const { promotionCode, detailPromo, discount } = body;
+    const { promotion_code, detail_promo, discount } = body;
     const sqlQuery =
-      "UPDATE public.promotions SET promotionCode = $1, detailPromo = $2, discount = $3 WHERE public.promotions.id = $4";
-    db.query(sqlQuery, [promotionCode, detailPromo, discount, id])
+      "UPDATE public.promotions SET promotion_code = $1, detail_promo = $2, discount = $3 WHERE public.promotions.id = $4";
+    db.query(sqlQuery, [promotion_code, detail_promo, discount, id])
       .then((data) => {
         const response = {
           data,

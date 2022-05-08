@@ -88,10 +88,10 @@ const findPromotion = (query) => {
 
 const createNewProduct = (body) => {
   return new Promise((resolve, reject) => {
-    const { menu, category, size, price } = body;
+    const { menu, category, size, price, picture } = body;
     const sqlQuery =
-      "INSERT INTO public.products(menu, category, size, price) VALUES ($1, $2, $3, $4) RETURNING *";
-    db.query(sqlQuery, [menu, category, size, price])
+      "INSERT INTO public.products(menu, category, size, price, picture) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+    db.query(sqlQuery, [menu, category, size, price, picture])
       .then(({ rows }) => {
         const response = {
           data: rows[0],
@@ -121,10 +121,10 @@ const deleteProduct = (id) => {
 
 const updateProduct = (id, body) => {
   return new Promise((resolve, reject) => {
-    const { menu, category, size, price } = body;
+    const { menu, category, size, price, picture } = body;
     const sqlQuery =
-      "UPDATE public.products SET menu = $1, category = $2, size = $3, price = $4 WHERE public.products.id = $5";
-    db.query(sqlQuery, [menu, category, size, price, id])
+      "UPDATE public.products SET menu = $1, category = $2, size = $3, price = $4, picture = $5, WHERE public.products.id = $5";
+    db.query(sqlQuery, [menu, category, size, price, picture, id])
       .then((data) => {
         const response = {
           data,

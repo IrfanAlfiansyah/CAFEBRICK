@@ -9,7 +9,9 @@ Router.get("/all", productController.getAllProducts);
 
 Router.get("/:id", productController.getProductById);
 
-Router.get("/", productController.findProductByQuery);
+Router.get("/", validate.queryFind, productController.findProductByQuery);
+
+Router.get("/", productController.searchProductByQuery);
 
 Router.get("/", productController.findPromotionByQuery);
 

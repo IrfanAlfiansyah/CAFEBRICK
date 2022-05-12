@@ -61,15 +61,40 @@ const findProduct = (query) => {
   });
 };
 
+const searchProduct = (query) => {
+  return new Promise((resolve, reject) => {
+    const { menu, order, sort } = query;
+    let sqlQuery =
+      "SELECT * FROM public.products WHERE lower(menu) LIKE lower('%' || $1 || '%')";
+    if (order) {
+      sqlQuery += " order by " + sort + " " + order;
+    }
+    db.query(sqlQuery, [menu])
+      .then((result) => {
+        if (result.rows.length === 0) {
+          return reject({ status: 404, err: "Product Not Found" });
+        }
+        const response = {
+          total: result.rowCount,
+          data: result.rows,
+        };
+        resolve(response);
+      })
+      .catch((err) => {
+        reject({ status: 500, err });
+      });
+  });
+};
+
 const findPromotion = (query) => {
   return new Promise((resolve, reject) => {
-    const { promotionCode } = query;
+    const { promotion_code } = query;
     let sqlQuery =
-      "select * from public.promotions where lower(promotionCode) like lower('%' || $1 || '%')";
+      "select * from public.promotions where lower(promotion_code) like lower('%' || $1 || '%')";
     // if (order) {
     //   sqlQuery += " order by " + sort + " " + order;
     // }
-    db.query(sqlQuery, [promotionCode])
+    db.query(sqlQuery, [promotion_code])
       .then((result) => {
         if (result.rows.length === 0) {
           return reject({ status: 404, err: "Promotion Not Found" });
@@ -142,6 +167,7 @@ module.exports = {
   getProductsFromServer,
   getSingleProductFromServer,
   findProduct,
+  searchProduct,
   findPromotion,
   createNewProduct,
   deleteProduct,

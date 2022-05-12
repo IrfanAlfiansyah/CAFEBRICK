@@ -1,5 +1,5 @@
 const productModel = require("../models/product");
-const { getProductsFromServer, getSingleProductFromServer, findProduct, findPromotion, createNewProduct, deleteProduct, updateProduct } = productModel;
+const { getProductsFromServer, getSingleProductFromServer, findProduct, searchProduct, findPromotion, createNewProduct, deleteProduct, updateProduct } = productModel;
 const { successResponse, errorResponse } = require("../helpers/response");
 
 
@@ -32,6 +32,16 @@ const getProductById = (req, res) => {
 
 const findProductByQuery = (req, res) => {
   findProduct(req.query)
+    .then(({ data, total }) => {
+      successResponse(res, 200, data, total);
+    })
+    .catch(({ status, err }) => {
+      errorResponse(res, status, err);
+    });
+};
+
+const searchProductByQuery = (req, res) => {
+  searchProduct(req.query)
     .then(({ data, total }) => {
       successResponse(res, 200, data, total);
     })
@@ -102,6 +112,7 @@ module.exports = {
   getAllProducts,
   getProductById,
   findProductByQuery,
+  searchProductByQuery,
   findPromotionByQuery,
   postNewProduct,
   deleteProductById,

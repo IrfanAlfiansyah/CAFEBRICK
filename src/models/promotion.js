@@ -1,15 +1,25 @@
 const db = require("../config/db");
 
-
-const getPromotionFromServer = () => {
+const getPromotion = (query) => {
   return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM public.promotions")
-      .then(result => {
+    const { page = 1, limit = 3 } = query;
+    const offset = (Number(page-1) * Number(limit));
+
+    db.query("SELECT * FROM public.promotions ORDER BY id LIMIT $1 OFFSET $2", [Number(limit), offset])
+      .then((result) => {
         const response = {
-          total: result.rowCount,
           data: result.rows,
         };
-        resolve(response);
+        db.query("SELECT COUNT(*) AS total_promotion FROM public.promotions")
+          .then((result) => {
+            response.totalData = Number(result.rows[0]["total_promotion"]);
+            response.totalPage = Math.ceil(response.totalData / Number(limit)
+            );
+            resolve(response);
+          })
+          .catch((err) => {
+            reject({ status: 500, err });
+          }); 
       })
       .catch((err) => {
         reject({ status: 500, err });
@@ -54,7 +64,8 @@ const createNewPromotion = (body) => {
 
 const deletePromotion = (id) => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = "DELETE FROM public.promotions where public.promotions.id = $1";
+    const sqlQuery =
+      "DELETE FROM public.promotions where public.promotions.id = $1";
     db.query(sqlQuery, [id])
       .then((data) => {
         const response = {
@@ -89,7 +100,7 @@ const updatePromotion = (id, body) => {
 };
 
 module.exports = {
-  getPromotionFromServer,
+  getPromotion,
   getSinglePromotionFromServer,
   createNewPromotion,
   deletePromotion,

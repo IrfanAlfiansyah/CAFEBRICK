@@ -18,5 +18,3 @@ Router.delete("/", (_, res) => {
 });
 
 module.exports = Router;
-
-

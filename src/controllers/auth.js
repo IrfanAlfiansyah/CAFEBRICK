@@ -36,9 +36,15 @@ auth.logIn = async (req, res) => {
     if (!result)
       return errorResponse(res, 400, { msg: "Email Or Password Is Wrong" });
 
-    const payload = {};
-
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
+    const payload = {
+      id: data.id,
+      email,
+    };
+    const jwtOpions = {
+      issuer: process.env.JWT_ISSUER, 
+      expiresIn: "1000s",
+    };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, jwtOpions);
     successResponse(res, 200, { email, token }, null);
   } catch (error) { 
     const { status, err } = error;

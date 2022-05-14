@@ -1,11 +1,24 @@
-const { getTransactionFromServer, getSingleTransactionFromServer, createNewTransaction, deleteTransaction, updateTransaction } = require("../models/transaction");
+const {
+  getTransaction,
+  getSingleTransactionFromServer,
+  createNewTransaction,
+  deleteTransaction,
+  updateTransaction,
+} = require("../models/transaction");
 const { successResponse, errorResponse } = require("../helpers/response");
 
 const getAllTransaction = (req, res) => {
-  getTransactionFromServer()
+  getTransaction(req.query)
     .then((result) => {
-      const { total, data } = result;
-      successResponse(res, 200, data, total);
+      const { totalData, totalPage, data } = result;
+      const meta = {
+        totalData,
+        totalPage,
+        route: `/transaction${req.route.path}?)`,
+        query: req.query,
+        page: Number(req.query.page),
+      };
+      successResponse(res, 200, data, meta);
     })
     .catch((error) => {
       const { err, status } = error;

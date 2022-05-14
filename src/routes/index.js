@@ -12,10 +12,9 @@ const authRouter = require("./auth");
 Router.use("/ping", pingRouter);
 Router.use("/hello", helloRouter);
 Router.use("/product", productRouter);
-Router.use("/promotion", promotionRouter); 
+Router.use("/promotion", promotionRouter);
 Router.use("/transaction", transactionRouter);
 Router.use("/user", userRouter);
 Router.use("/auth", authRouter);
 
 module.exports = Router;
-

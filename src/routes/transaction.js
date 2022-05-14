@@ -5,11 +5,13 @@ const transactionController = require("../controllers/transaction");
 
 const validate = require("../middlewares/validate");
 
+const { checkToken } = require("../middlewares/auth");
+
 Router.get("/all", transactionController.getAllTransaction);
 
 Router.get("/:id", transactionController.getTransactionById);
 
-Router.post("/", validate.transactionData, transactionController.postNewTransaction); 
+Router.post("/", checkToken, validate.transactionData, transactionController.postNewTransaction); 
 
 Router.delete("/:id", transactionController.deleteTransactionById);
 

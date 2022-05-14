@@ -15,7 +15,12 @@ validate.queryFind = (req, res, next) => {
 validate.productData = (req, res, next) => {
   const { body } = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "menu" || key === "category" || key === "size" || key === "price" || key === "picture"
+    (key) =>
+      key === "menu" ||
+      key === "category" ||
+      key === "size" ||
+      key === "price" ||
+      key === "picture"
   );
   if (validBody.length < 5) {
     return res.status(400).json({
@@ -28,7 +33,11 @@ validate.productData = (req, res, next) => {
 validate.userData = (req, res, next) => {
   const { body } = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "display_name" || key === "email" || key === "phone_number" || key === "address"
+    (key) =>
+      key === "display_name" ||
+      key === "email" ||
+      key === "phone_number" ||
+      key === "address"
   );
   if (validBody.length < 4) {
     return res.status(400).json({
@@ -41,7 +50,8 @@ validate.userData = (req, res, next) => {
 validate.promotionData = (req, res, next) => {
   const { body } = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "promotion_code" || key === "detail_promo" || key === "discount"
+    (key) =>
+      key === "promotion_code" || key === "detail_promo" || key === "discount"
   );
   if (validBody.length < 3) {
     return res.status(400).json({
@@ -54,7 +64,15 @@ validate.promotionData = (req, res, next) => {
 validate.transactionData = (req, res, next) => {
   const { body } = req;
   const validBody = Object.keys(body).filter(
-    (key) => key === "product_id" || key === "quantity" || key === "size" || key === "sub_total" || key === "shipping" || key === "tax" || key === "total" || key === "address"
+    (key) =>
+      key === "product_id" ||
+      key === "quantity" ||
+      key === "size" ||
+      key === "sub_total" ||
+      key === "shipping" ||
+      key === "tax" ||
+      key === "total" ||
+      key === "address"
   );
   if (validBody.length < 8) {
     return res.status(400).json({
@@ -69,12 +87,15 @@ validate.authRegister = (req, res, next) => {
   const validBody = Object.keys(body).filter(
     (key) => key === "email" || key === "pass"
   );
-  if(validBody.email.value === "" || validBody.email.value.indexOf ("@") === -1){
+  if (
+    validBody.email.value === "" ||
+    validBody.email.value.indexOf("@") === -1
+  ) {
     return res.status(403).json({
       err: "You Have To Write a Valid Email Address.",
     });
   }
-  if(validBody.pass.value === "" || validBody.pass.length >= 8){
+  if (validBody.pass.value === "" || validBody.pass.length >= 8) {
     return res.status(403).json({
       err: "Password Must Be More Than Or Equal To 8 Digits.",
     });

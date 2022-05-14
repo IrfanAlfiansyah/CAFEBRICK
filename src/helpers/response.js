@@ -1,9 +1,9 @@
 const response = {};
-response.successResponse = (res, status, data, total) => {
+response.successResponse = (res, status, data, meta) => {
   res.status(status).json({
     err: null,
     data,
-    total,
+    meta,
   });
 };
 

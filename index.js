@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 //const res = require("express/lib/response");
 //import package express
 const mainRouter = require("./src/routes/index");
@@ -23,6 +24,14 @@ db.connect()
     
     server.use(express.urlencoded({ extended: false }));
     server.use(express.json());
+
+    //pasang cors
+    const corsOptions = {
+      origin: "*",
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+      allowed: ["Content-Type", "Authorization"],
+    };
+   server.use(cors(corsOptions));
 
     server.use(mainRouter);
 

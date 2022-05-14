@@ -1,12 +1,24 @@
-const { getUserFromServer, getSingleUserFromServer, createNewUser, deleteUser, updateUser } = require("../models/user");
+const {
+  getUser,
+  getSingleUserFromServer,
+  createNewUser,
+  deleteUser,
+  updateUser,
+} = require("../models/user");
 const { successResponse, errorResponse } = require("../helpers/response");
 
-
 const getAllusers = (req, res) => {
-  getUserFromServer()
+  getUser(req.query)
     .then((result) => {
-      const { total, data } = result;
-      successResponse(res, 200, data, total);
+      const { totalData, totalPage, data } = result;
+      const meta = {
+        totalData,
+        totalPage,
+        route: `/user${req.route.path}?)`,
+        query: req.query,
+        page: Number(req.query.page),
+      };
+      successResponse(res, 200, data, meta);
     })
     .catch((error) => {
       const { err, status } = error;

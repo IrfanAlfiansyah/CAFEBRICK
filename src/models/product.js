@@ -1,15 +1,31 @@
 const db = require("../config/db");
 
-
-const getProductsFromServer = () => {
+const getProducts = (query) => {
   return new Promise((resolve, reject) => {
-    db.query("SELECT * FROM public.products")
-      .then(result => {
+    const { page = 1, limit = 4 } = query;
+    //menetukan offset dengan rumus offset = (page - 1) * limit
+    const offset = (Number(page) - 1) * Number(limit);
+
+    db.query("SELECT * FROM public.products ORDER BY id LIMIT $1 OFFSET $2", [
+      Number(limit),
+      offset,
+    ])
+      .then((result) => {
+        
         const response = {
-          total: result.rowCount,
           data: result.rows,
         };
-        resolve(response);
+        //total data
+        db.query("SELECT COUNT(*) AS total_product FROM public.products")
+          .then((result) => {
+            response.totalData = Number(result.rows[0]["total_product"]);
+            response.totalPage = Math.ceil(response.totalData) / Number(limit)
+          ;
+            resolve(response);
+          })
+          .catch((err) => {
+            reject({ status: 500, err });
+          }); 
       })
       .catch((err) => {
         reject({ status: 500, err });
@@ -88,13 +104,13 @@ const searchProduct = (query) => {
 
 const findPromotion = (query) => {
   return new Promise((resolve, reject) => {
-    const { promotion_code } = query;
+    const { promotion_code, order, sort } = query;
     let sqlQuery =
       "select * from public.promotions where lower(promotion_code) like lower('%' || $1 || '%')";
-    // if (order) {
-    //   sqlQuery += " order by " + sort + " " + order;
-    // }
-    db.query(sqlQuery, [promotion_code])
+      if (order) {
+        sqlQuery += " order by " + sort + " " + order;
+      } 
+      db.query(sqlQuery, [promotion_code])
       .then((result) => {
         if (result.rows.length === 0) {
           return reject({ status: 404, err: "Promotion Not Found" });
@@ -129,7 +145,8 @@ const createNewProduct = (body) => {
 
 const deleteProduct = (id) => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = "DELETE FROM public.products where public.products.id = $1";
+    const sqlQuery =
+      "DELETE FROM public.products where public.products.id = $1";
     db.query(sqlQuery, [id])
       .then((data) => {
         const response = {
@@ -164,7 +181,7 @@ const updateProduct = (id, body) => {
 };
 
 module.exports = {
-  getProductsFromServer,
+  getProducts,
   getSingleProductFromServer,
   findProduct,
   searchProduct,

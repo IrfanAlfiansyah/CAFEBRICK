@@ -1,13 +1,28 @@
 const productModel = require("../models/product");
-const { getProductsFromServer, getSingleProductFromServer, findProduct, searchProduct, findPromotion, createNewProduct, deleteProduct, updateProduct } = productModel;
+const {
+  getProducts,
+  getSingleProductFromServer,
+  findProduct,
+  searchProduct,
+  findPromotion,
+  createNewProduct,
+  deleteProduct,
+  updateProduct,
+} = productModel;
 const { successResponse, errorResponse } = require("../helpers/response");
 
-
 const getAllProducts = (req, res) => {
-  getProductsFromServer()
+  getProducts(req.query)
     .then((result) => {
-      const { total, data } = result;
-      successResponse(res, 200, data, total);
+      const { totalData, totalPage, data } = result;
+      const meta = {
+        totalData,
+        totalPage,
+        route: `/product${req.route.path}?)`,
+        query: req.query,
+        page: Number(req.query.page),
+      };
+      successResponse(res, 200, data, meta);
     })
     .catch((error) => {
       const { err, status } = error;

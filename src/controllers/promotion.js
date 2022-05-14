@@ -1,13 +1,26 @@
 const promotionModel = require("../models/promotion");
-const { getPromotionFromServer, getSinglePromotionFromServer, createNewPromotion, deletePromotion, updatePromotion } = promotionModel;
+const {
+  getPromotion,
+  getSinglePromotionFromServer,
+  createNewPromotion,
+  deletePromotion,
+  updatePromotion,
+} = promotionModel;
 const { successResponse, errorResponse } = require("../helpers/response");
 //
 
 const getAllPromotions = (req, res) => {
-  getPromotionFromServer()
+  getPromotion(req.query)
     .then((result) => {
-      const { total, data } = result;
-      successResponse(res, 200, data, total);
+      const { totalData, totalPage, data } = result;
+      const meta = {
+        totalData,
+        totalPage,
+        route: `/promotion${req.route.path}?)`,
+        query: req.query,
+        page: Number(req.query.page),
+      };
+      successResponse(res, 200, data, meta);
     })
     .catch((error) => {
       console.log(error);

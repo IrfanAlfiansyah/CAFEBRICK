@@ -5,6 +5,8 @@ const productController = require("../controllers/product");
 
 const validate = require("../middlewares/validate");
 
+const { checkToken } = require("../middlewares/auth");
+
 Router.get("/all", productController.getAllProducts);
 
 Router.get("/:id", productController.getProductById);
@@ -15,7 +17,7 @@ Router.get("/", productController.searchProductByQuery);
 
 Router.get("/", productController.findPromotionByQuery);
 
-Router.post("/", validate.productData, productController.postNewProduct); 
+Router.post("/", checkToken, validate.productData, productController.postNewProduct); 
 
 Router.delete("/:id", productController.deleteProductById);
 

@@ -7,11 +7,13 @@ const validate = require("../middlewares/validate");
 
 const { checkToken } = require("../middlewares/auth");
 
+const imageUpload = require("../middlewares/upload");
+
 Router.get("/all", promotionController.getAllPromotions);
 
 Router.get("/:id", promotionController.getPromotionById);
 
-Router.post("/", checkToken, validate.promotionData, promotionController.postNewPromotion); 
+Router.post("/", checkToken, imageUpload.single("picture"), validate.promotionData, promotionController.postNewPromotion); 
 
 Router.delete("/:id", promotionController.deletePromotionById);
 

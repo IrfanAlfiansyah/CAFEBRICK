@@ -31,7 +31,9 @@ db.connect()
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowed: ["Content-Type", "Authorization"],
     };
-   server.use(cors(corsOptions));
+    server.use(cors(corsOptions));
+
+    server.use(express.static("public"));
 
     server.use(mainRouter);
 

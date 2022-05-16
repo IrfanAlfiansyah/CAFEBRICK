@@ -46,12 +46,12 @@ const getSinglePromotionFromServer = (id) => {
   });
 };
 
-const createNewPromotion = (body) => {
+const createNewPromotion = (body, picture) => {
   return new Promise((resolve, reject) => {
     const { promotion_code, detail_promo, discount } = body;
     const sqlQuery =
-      "INSERT INTO public.promotions(promotion_code, detail_promo, discount) VALUES ($1, $2, $3) RETURNING *";
-    db.query(sqlQuery, [promotion_code, detail_promo, discount])
+      "INSERT INTO public.promotions(promotion_code, detail_promo, discount, picture) VALUES ($1, $2, $3, $4) RETURNING *";
+    db.query(sqlQuery, [promotion_code, detail_promo, discount, picture])
       .then(({ rows }) => {
         const response = {
           data: rows[0],

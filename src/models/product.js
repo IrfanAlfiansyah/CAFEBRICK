@@ -127,9 +127,9 @@ const findPromotion = (query) => {
   });
 };
 
-const createNewProduct = (body) => {
+const createNewProduct = (body, picture) => {
   return new Promise((resolve, reject) => {
-    const { menu, category, size, price, picture } = body;
+    const { menu, category, size, price } = body;
     const sqlQuery =
       "INSERT INTO public.products(menu, category, size, price, picture) VALUES ($1, $2, $3, $4, $5) RETURNING *";
     db.query(sqlQuery, [menu, category, size, price, picture])

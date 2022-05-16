@@ -45,10 +45,15 @@ const getPromotionById = (req, res) => {
 };
 
 const postNewPromotion = (req, res) => {
-  createNewPromotion(req.body)
+  const { file } = req;
+  let picture;
+  if(file){
+    picture = file.path.replace("public", "").replace(/\\/g, "/");
+  }
+  createNewPromotion(req.body, picture)
     .then(({ data }) => {
       res.status(200).json({
-        err: null,
+        meassage: "Promotion Created",
         data,
       });
     })

@@ -7,6 +7,8 @@ const validate = require("../middlewares/validate");
 
 const { checkToken } = require("../middlewares/auth");
 
+const imageUpload = require("../middlewares/upload");
+
 Router.get("/all", productController.getAllProducts);
 
 Router.get("/:id", productController.getProductById);
@@ -17,7 +19,7 @@ Router.get("/", productController.searchProductByQuery);
 
 Router.get("/", productController.findPromotionByQuery);
 
-Router.post("/", checkToken, validate.productData, productController.postNewProduct); 
+Router.post("/", checkToken, imageUpload.single("picture"), validate.productData, productController.postNewProduct); 
 
 Router.delete("/:id", productController.deleteProductById);
 

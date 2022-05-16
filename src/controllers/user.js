@@ -74,8 +74,13 @@ const deleteUserById = (req, res) => {
 };
 
 const updateUserById = (req, res) => {
+  const { file } = req;
+  let picture;
+  if(file){
+    picture = file.path.replace("public", "").replace(/\\/g, "/");
+  }
   const id = req.params.id;
-  updateUser(id, req.body)
+  updateUser(id, req.body, picture)
     .then(({ data }) => {
       res.status(200).json({
         data: data.rowCount,

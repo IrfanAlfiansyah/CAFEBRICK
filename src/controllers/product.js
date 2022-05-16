@@ -76,10 +76,15 @@ const findPromotionByQuery = (req, res) => {
 };
 
 const postNewProduct = (req, res) => {
-  createNewProduct(req.body)
+  const { file } = req;
+  let picture;
+  if(file){
+    picture = file.path.replace("public", "").replace(/\\/g, "/");
+  }
+  createNewProduct(req.body, picture)
     .then(({ data }) => {
       res.status(200).json({
-        err: null,
+        message: "Product Created",
         data,
       });
     })

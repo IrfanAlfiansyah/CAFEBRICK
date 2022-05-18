@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { v4: uuidV4 } = require("uuid");
 
 const getProducts = (query) => {
   return new Promise((resolve, reject) => {
@@ -130,9 +131,10 @@ const findPromotion = (query) => {
 const createNewProduct = (body, picture) => {
   return new Promise((resolve, reject) => {
     const { menu, category, size, price } = body;
+    const id = uuidV4();
     const sqlQuery =
-      "INSERT INTO public.products(menu, category, size, price, picture) VALUES ($1, $2, $3, $4, $5) RETURNING *";
-    db.query(sqlQuery, [menu, category, size, price, picture])
+      "INSERT INTO public.products(id, menu, category, size, price, picture) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
+    db.query(sqlQuery, [id, menu, category, size, price, picture])
       .then(({ rows }) => {
         const response = {
           data: rows[0],

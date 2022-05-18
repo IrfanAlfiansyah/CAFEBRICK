@@ -31,4 +31,16 @@ const imageUpload = multer ({
   fileFilter: imageOnlyFilter,
 });
 
+
+/*const handlingUpload = async (req, res, next) => {
+  await upload(req, res, (err) => {
+    if(err instanceof multer.MulterError){
+      return helperWraper.res(res, 401, err.message, null)};
+      if(err){
+        return helperWraper.res(res, 401, err.message, null);
+      }
+      return next();
+    });
+  };*/
+
 module.exports = imageUpload;

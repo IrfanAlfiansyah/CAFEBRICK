@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { v4: uuidV4 } = require("uuid");
 
 const getTransaction = (query) => {
   return new Promise((resolve, reject) => {
@@ -58,9 +59,11 @@ const createNewTransaction = (body) => {
       total,
       address,
     } = body;
+    const id = uuidV4();
     const sqlQuery =
-      "INSERT INTO public.transactions(product_id, quantity, size, sub_total, shipping, tax, total, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *";
+      "INSERT INTO public.transactions(id, product_id, quantity, size, sub_total, shipping, tax, total, address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
     db.query(sqlQuery, [
+      id,
       product_id,
       quantity,
       size,

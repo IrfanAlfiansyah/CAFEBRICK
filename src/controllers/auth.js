@@ -7,15 +7,15 @@ const { register, getPassByUserEmail } = require("../models/auth");
 
 
 auth.register = (req, res) => {
-  const { body: { display_name, email, phone_number, address, pass }, } = req;
+  const { body: { email, phone_number, pass }, } = req;
   bcrypt
     .hash(pass, 10)
     .then((hashedPassword) => {
-      register(display_name, email, phone_number, address, hashedPassword)
+      register(email, phone_number, hashedPassword)
         .then(() => {
           successResponse(res, 201, { msg: "Register Success" }, null);
         })
-        .catch((error) => {
+        .catch((error) => {          
           const { status, err } = error;
           errorResponse(res, status, err);
         });

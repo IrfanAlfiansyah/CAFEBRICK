@@ -27,7 +27,7 @@ db.connect()
 
     //pasang cors
     const corsOptions = {
-      origin: "*",
+      origin: ["http://127.0.0.1:5500", "http://localhost:3000"],
       methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
       allowed: ["Content-Type", "Authorization"],
     };

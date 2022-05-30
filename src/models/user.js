@@ -83,8 +83,8 @@ const updateUser = (id, body, picture) => {
   return new Promise((resolve, reject) => {
     const { display_name, email, phone_number, address } = body;
     const sqlQuery =
-      "UPDATE public.users SET display_name = $1, email = $2, phone_number = $3, address = $4, picture = $5 WHERE public.users.id = $5";
-    db.query(sqlQuery, [display_name, email, phone_number, address, id, picture])
+      "UPDATE public.users SET display_name = $1, email = $2, phone_number = $3, address = $4, picture = $5 WHERE public.users.id = $6";
+    db.query(sqlQuery, [display_name, email, phone_number, address, picture, id])
       .then((data) => {
         const response = {
           data,

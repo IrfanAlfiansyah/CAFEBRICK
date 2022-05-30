@@ -2,23 +2,19 @@ const db = require("../config/db");
 const { v4: uuidV4 } = require("uuid");
 
 const register = (
-  display_name,
   email,
   phone_number,
-  address,
   hashedPassword
 ) => {
   return new Promise((resolve, reject) => {
     const sqlQuery =
-      "INSERT INTO public.users VALUES ($1, $2, $3, $4, $5, $6, $7)";
+      "INSERT INTO users (id, email, phone_number, pass, created_at) VALUES ($1, $2, $3, $4, $5)";
     const id = uuidV4();
     const timestamp = new Date(Date.now());
     const values = [
       id,
-      display_name,
       email,
       phone_number,
-      address,
       hashedPassword,
       timestamp,
     ];
